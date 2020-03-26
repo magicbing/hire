@@ -9,4 +9,5 @@ export interface ErrorMessage {
 
 export function parseError(err: Error): ErrorMessage {
   // implement
+  // git add
 }
