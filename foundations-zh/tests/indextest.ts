@@ -5,11 +5,11 @@ import {
 const {
   describe,
   it
-} = require('mocha');
+} = require('mocha')
 
 const {
   expect
-} = require('chai');
+} = require('chai')
 
 const fixtureStack = new Error(`TypeError: Error raised
 at bar http://192.168.31.8:8000/c.js:2:9
