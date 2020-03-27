@@ -54,13 +54,13 @@ const except = {
 }
 
 describe('#parseError test', () => {
-  describe('chrome', () => {
+  describe('chrome test', () => {
     it('chrome pass', () => {
       expect(parseError(fixtureStack)).to.deep.equal(except);
     })
   })
 
-  describe('firefox', () => {
+  describe('firefox test', () => {
     it('firefox pass', () => {
       expect(parseError(fixtureFirefoxStack)).to.deep.equal(except);
     })

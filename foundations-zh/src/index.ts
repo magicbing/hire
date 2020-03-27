@@ -11,19 +11,27 @@ export function parseError(err: Error): ErrorMessage {
   // implement
   
   const regMatch:RegExp = /(http:\/\/|https:\/\/).+?js.*?:\d+:\d+/gs
-  const regFilename:RegExp = /(http:\/\/|https:\/\/).+?js/gs
-  const regNumber:RegExp = /(?<=:)\d+/gs
-
   const matchArr:RegExpMatchArray = err.message.match(regMatch) || []
-  const stack = matchArr && matchArr.map(str => {
-    const lineArr:RegExpMatchArray = str.match(regNumber) || []
-    const line:number = parseInt(lineArr.slice(-2,-1)[0])
-
-    const columnArr:RegExpMatchArray = str.match(regNumber) || []
-    const column:number = parseInt(columnArr && columnArr.slice(-1)[0])
-
-    const filenameArr:RegExpMatchArray | null = str.match(regFilename)
-    const filename:string = filenameArr && filenameArr[0] || ''
+  const stack = matchArr.map(str => {
+    const length:number = str.length
+    let line:number = -1
+    let column:number = -1
+    let slow:number = length - 1
+    let fast:number = length - 1
+    while (slow >= 0 && fast >=0) {
+      while (str[fast] !== ':') {
+        fast--
+      }
+      if (column === -1) {
+        column = parseInt(str.slice(fast + 1, slow + 1))
+        fast--
+        slow = fast
+      } else if (line === -1) {
+        line = parseInt(str.slice(fast + 1, slow + 1))
+        break
+      }
+    }
+    const filename:string = str.slice(0, fast)
     
     return {
       line,
